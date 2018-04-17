@@ -47,12 +47,9 @@ class Usuario{
 		$results = $sql->select("SELECT * FROM tb_usuarios WHERE idusuario = :ID", array(":ID"=>$id));
 
 		if(count($results) > 0) {
-			$row = $results[0];
+			//$row = $results[0];
 
-			$this->setId($row['idusuario']);
-			$this->setLogin($row['deslogin']);
-			$this->setSenha($row['dessenha']);
-			$this->setDtCadastro(new DateTime($row['dtcadastro']));		
+			$this->setDados($results[0]);	
 		}
 	}
 
@@ -87,14 +84,60 @@ class Usuario{
 		$results = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND dessenha = :SENHA", array(":LOGIN"=>$login, ":SENHA"=>$senha));
 
 		if(count($results) > 0) {
-			$row = $results[0];
-
-			$this->setId($row['idusuario']);
-			$this->setLogin($row['deslogin']);
-			$this->setSenha($row['dessenha']);
-			$this->setDtCadastro(new DateTime($row['dtcadastro']));		
+			//$row = $results[0];
+			$this->setDados($results[0]);
+				
 		}
 	}
+
+	public function setDados($row){
+		$this->setId($row['idusuario']);
+			$this->setLogin($row['deslogin']);
+			$this->setSenha($row['dessenha']);
+			$this->setDtCadastro(new DateTime($row['dtcadastro']));	
+	}
+
+
+
+
+	public function salvar(){
+
+		$sql = new Sql();
+
+		$results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :SENHA)", array(':LOGIN'=>$this->getLogin(),
+				  ':SENHA'=>$this->getSenha()
+	));
+
+		if(count($results) > 0) {
+			//$row = $results[0];
+			$this->setDados($results[0]);
+				
+		}
+	}
+
+
+
+public function __construct($login = "", $senha = ""){
+	$this->setLogin($login);
+	$this->setSenha($senha);
+}
+
+
+public function editar($login, $senha){
+
+	$this->setLogin($login);
+	$this->setSenha($senha);
+
+	$sql = new Sql();
+
+	$sql->query("UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :SENHA WHERE idusuario = :ID", array(
+		':LOGIN'=>$this->getLogin(),
+		':SENHA'=>$this->getSenha(),
+		'ID'=>$this->getId()
+
+	));
+}
+
 
 
 }//FIM DA CLASSE

@@ -10,9 +10,9 @@
 
 
 	//CARREGA UM USUÁRIO
-	$root = new Usuario();
-	$root->buscarPorCodigo(5);
-	echo $root;
+	//$root = new Usuario();
+	//$root->buscarPorCodigo(5);
+	//echo $root;
 
 
 	//Carrega uma lista de usuários
@@ -34,6 +34,23 @@
 
 	//echo $usuario;
 
+
+	//65 INSERT - CRIANDO UM NOVO USUÁRIO
+
+	//$aluno = new Usuario("aluno","22222");	
+
+	//$aluno->salvar();
+
+	//echo $aluno;
+
+
+	$usuario = new Usuario();
+
+	$usuario->buscarPorCodigo(12);
+
+	$usuario->editar("pessoa" , "cassilda123");
+
+	echo $usuario;
 
 
 
