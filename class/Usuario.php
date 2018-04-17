@@ -36,7 +36,7 @@ class Usuario{
 		return $this->dtCadastro;
 	}
 
-	public function setDtcadastro($dtCadastro){
+	public function setDtCadastro($dtCadastro){
 		$this->dtCadastro = $dtCadastro;
 	}
 
@@ -52,7 +52,7 @@ class Usuario{
 			$this->setId($row['idusuario']);
 			$this->setLogin($row['deslogin']);
 			$this->setSenha($row['dessenha']);
-			$this->setDtcadastro(new DateTime($row['dtcadastro']));		
+			$this->setDtCadastro(new DateTime($row['dtcadastro']));		
 		}
 	}
 
@@ -60,19 +60,43 @@ class Usuario{
 	public function __tostring(){
 		return json_encode(array(
 			"idusuario"=>$this->getId(),
-			"idusuario"=>$this->getLogin(),
-			"idusuario"=>$this->getSenha(),
-			"idusuario"=>$this->getDtCadastro()->format("d|m|Y H:i:s")
+			"deslogin"=>$this->getLogin(),
+			"dessenha"=>$this->getSenha(),
+			"dtCadastro"=>$this->getDtCadastro()->format("d|m|Y ")
 
 		));
 	}
 
+	///////64
+	public static function listar(){
+		$sql = new Sql();
+		return $sql->select("SELECT * FROM tb_usuarios ORDER BY deslogin;");
+	}
+
+
+	public static function listarPorUsuario($login){
+		$sql = new Sql();
+		return $sql->select("SELECT * FROM tb_usuarios WHERE deslogin LIKE :SEARCH ORDER BY deslogin;",array(':SEARCH'=>"%".$login."%"));
+	}
 
 
 
+	public function login($login, $senha){
+		$sql = new Sql();
+
+		$results = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGIN AND dessenha = :SENHA", array(":LOGIN"=>$login, ":SENHA"=>$senha));
+
+		if(count($results) > 0) {
+			$row = $results[0];
+
+			$this->setId($row['idusuario']);
+			$this->setLogin($row['deslogin']);
+			$this->setSenha($row['dessenha']);
+			$this->setDtCadastro(new DateTime($row['dtcadastro']));		
+		}
+	}
 
 
-
-}
+}//FIM DA CLASSE
 
 ?>
