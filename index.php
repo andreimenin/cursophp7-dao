@@ -44,13 +44,25 @@
 	//echo $aluno;
 
 
+	//$usuario = new Usuario();
+
+	//$usuario->buscarPorCodigo(12);
+
+	//$usuario->editar("pessoa" , "cassilda123");
+
+	//echo $usuario;
+
+//////////////////////
+
+
 	$usuario = new Usuario();
 
 	$usuario->buscarPorCodigo(12);
 
-	$usuario->editar("pessoa" , "cassilda123");
+	$usuario->excluir();
 
 	echo $usuario;
+
 
 
 

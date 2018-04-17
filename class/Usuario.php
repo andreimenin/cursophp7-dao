@@ -139,6 +139,29 @@ public function editar($login, $senha){
 }
 
 
+public function excluir(){
+
+	$sql = new Sql();
+
+	$sql->query("DELETE FROM tb_usuarios WHERE idusuario = :ID" , array(
+			':ID'=>$this->getId()
+	));
+
+	$this->setId(0);
+	$this->setLogin("");
+	$this->setSenha("");
+	$this->setDtCadastro(new DateTime());
+
+
+
+}
+
+
+
+
+
+
+
 
 }//FIM DA CLASSE
 
